@@ -1,3 +1,7 @@
+<table>
+<tr>
+<td valign="top" width="55%">
+
 # Transformers from Scratch
 
 A personal learning lab for building transformer models from the ground up using PyTorch.
@@ -13,6 +17,13 @@ All code and explanations are original — no content from the book is reproduce
 
 > This is not an official companion repository and is not affiliated with or endorsed by the author
 > or publisher.
+
+</td>
+<td valign="top" align="center" width="45%">
+<img src="imgs/optimus.png" width="100%" alt="Optimus Prime"/>
+</td>
+</tr>
+</table>
 
 ---
 
