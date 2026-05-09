@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Private learning reference — book PDF and official sample code (never commit)
+private_reference/
