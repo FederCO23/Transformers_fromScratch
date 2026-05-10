@@ -219,3 +219,8 @@ __marimo__/
 
 # Private learning reference — book PDF and official sample code (never commit)
 private_reference/
+ref/
+
+# Local-only workflow files — spec-driven definitions and AI instructions
+openspec/
+.claude/
