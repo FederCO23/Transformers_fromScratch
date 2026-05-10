@@ -53,7 +53,7 @@ Transformers_fromScratch/
 
 ```bash
 # Clone
-git clone https://github.com/FederCO/Transformers_fromScratch.git
+git clone https://github.com/FederCO23/Transformers_fromScratch.git
 cd Transformers_fromScratch
 
 # Create and activate a virtual environment
