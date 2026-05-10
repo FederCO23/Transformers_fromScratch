@@ -16,6 +16,23 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# NLP stack — needed from ch03 onward
+nlp = [
+    "tokenizers>=0.19",        # ch03, ch14-17 — BPE / WordPiece / SentencePiece
+    "transformers>=4.40",      # ch02, ch04    — BERT, GPT-2, T5 via HuggingFace
+    "datasets>=2.19",          # ch14-17       — dataset loading helpers
+    "gensim>=4.3",             # ch04          — Word2Vec and GloVe loading
+    "nltk>=3.8",               # ch03          — stemming, lemmatization, tokenization
+    "tiktoken>=0.7",           # ch03          — OpenAI BPE tokenizer
+    "sentencepiece>=0.2",      # ch03          — SentencePiece tokenizer
+    "requests>=2.31",          # ch14-17       — dataset download
+    "tqdm>=4.66",              # ch14-17       — training progress bars
+]
+# Visualization extras
+viz = [
+    "matplotlib>=3.8",
+]
+# Development and notebook tooling
 dev = [
     "pytest>=8.0",
     "pytest-cov>=5.0",
@@ -25,6 +42,10 @@ dev = [
     "matplotlib>=3.8",
     "ruff>=0.4",
     "mypy>=1.9",
+]
+# Install everything
+all = [
+    "transformer-book-lab[nlp,viz,dev]",
 ]
 
 [tool.hatch.build.targets.wheel]
