@@ -42,7 +42,7 @@ Transformers_fromScratch/
 │   └── copyright-and-attribution.md
 ├── experiments/                # Standalone experiment scripts and configs
 ├── openspec/                   # Spec-driven change proposals and templates
-├── private_reference/          # GITIGNORED — local PDF + official sample code
+├── ref/                        # GITIGNORED — local PDF + official sample code
 ├── pyproject.toml
 └── README.md
 ```
@@ -150,8 +150,8 @@ copyrighted by Adrian Tam / Machine Learning Mastery. Neither the ebook text nor
 sample code is included in this repository.
 
 All code in `src/`, `notebooks/`, `tests/`, and `experiments/` is original work by Federico Bessi,
-released under the MIT License. A gitignored `private_reference/` folder is reserved for a local
-copy of the PDF and official code — it is never committed to the remote.
+released under the MIT License. A gitignored `ref/` folder holds a local copy of the PDF and
+official sample code — it is never committed to the remote.
 
 ---
 
