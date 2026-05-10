@@ -20,7 +20,7 @@ All code and explanations are original — no content from the book is reproduce
 
 </td>
 <td valign="top" align="center" width="45%">
-<img src="imgs/optimus.png" width="100%" alt="Optimus Prime"/>
+<img src="imgs/optimus2.png" width="100%" alt="Optimus Prime"/>
 </td>
 </tr>
 </table>
