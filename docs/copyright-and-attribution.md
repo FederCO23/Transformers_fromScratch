@@ -9,21 +9,62 @@
 | **Publisher** | Machine Learning Mastery |
 | **URL** | https://machinelearningmastery.com/building-transformer-models-from-scratch-with-pytorch-10-day-mini-course/ |
 
+---
+
+## Assessment of the Official Sample Code
+
+The official sample code was examined on 2026-05-09. Findings:
+
+- **No copyright headers** are present in any `.py` file across all 17 chapter folders.
+- **No LICENSE file** is included in the code distribution.
+- Machine Learning Mastery's standard terms apply: content is provided for personal study
+  and may not be redistributed, resold, or published without explicit written permission.
+- The code is stored in `ref/` (gitignored) and used only as a private study reference.
+
+**Conclusion:** the redistribution status of the code is unconfirmed. It is treated as
+proprietary and is never committed to this repository.
+
+---
+
 ## What This Repo Contains
 
-- **Original code** written from scratch by Federico Bessi, released under the MIT License.
-- **Original explanations** in each notebook, written in my own words.
+- **Original code** written independently by Federico Bessi, released under the MIT License.
+- **Original explanations** in each notebook, written in my own words after studying the material.
 - **No ebook text** — the book's prose is copyrighted and is not reproduced here.
-- **No publisher sample code** — the book's official code has an unconfirmed redistribution license.
-  It is stored locally in `private_reference/` (gitignored) and used only as a private study aid.
+- **No publisher sample code** — the book's official code is stored locally in `ref/` (gitignored)
+  and never committed to the public repository.
+
+---
 
 ## Private Reference Folder
 
-`private_reference/` is listed in `.gitignore`. It may contain:
-- A local copy of the purchased ebook PDF.
-- The official sample code downloaded from Machine Learning Mastery.
+`ref/` is listed in `.gitignore` and is **never committed or pushed**. It contains:
+- The purchased ebook PDF.
+- The official sample code from Machine Learning Mastery.
 
-This folder is **never committed or pushed** to the public repository.
+This folder exists only as a local study aid.
+
+---
+
+## Dependency Attributions
+
+The following third-party libraries are used as dependencies in this project.
+All are open-source and independently licensed:
+
+| Library | License | Used in |
+|---|---|---|
+| PyTorch | BSD-style | All chapters |
+| NumPy | BSD | All chapters |
+| HuggingFace `tokenizers` | Apache 2.0 | Ch 03, 14–17 |
+| HuggingFace `transformers` | Apache 2.0 | Ch 02, 04 |
+| HuggingFace `datasets` | Apache 2.0 | Ch 14–17 |
+| Gensim | LGPL | Ch 04 |
+| NLTK | Apache 2.0 | Ch 03 |
+| tiktoken | MIT | Ch 03 |
+| sentencepiece | Apache 2.0 | Ch 03 |
+| Matplotlib | PSF-based | Visualizations |
+
+---
 
 ## Disclaimer
 
