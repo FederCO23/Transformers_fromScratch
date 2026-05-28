@@ -51,4 +51,24 @@ A running journal of insights, confusions resolved, and decisions made while wor
 - Open questions: how does the causal mask interact with multi-head weights individually (before
   averaging)? Ch 07 will shed light on this when we implement MHA from scratch.
 
+## 2026-05-25 — Ch 04: Word Embeddings
+
+- Implemented three embedding families: `Word2VecEmbedder` (gensim skip-gram), `GloveEmbedder`
+  (gensim.downloader pre-trained), and `BertEmbedder` (HuggingFace last-layer hidden states).
+- Static embedders (`embed(word: str) -> Tensor` of shape `(d,)`) raise `KeyError` on OOV words and
+  expose `__contains__` for membership tests. Contextual embedder returns `(seq_len, d_model)` after
+  stripping the `[CLS]` and `[SEP]` special tokens.
+- All embedders return `torch.Tensor`; numpy arrays from gensim are wrapped with `.copy()` to avoid
+  non-writable memory issues before passing to `torch.from_numpy`.
+- Test strategy: fast tests mock gensim and HuggingFace backends with in-memory objects so no network
+  access is needed in CI; slow tests (`@pytest.mark.slow`) exercise real downloads and are opt-in.
+- The "bank" context-sensitivity demo makes the static vs contextual distinction concrete: GloVe
+  returns the same vector regardless of context; BERT's cosine similarity between *river bank* and
+  *financial bank* is noticeably below 1.0, proving the representations differ.
+- Key insight: static embeddings collapse polysemy — a word with multiple meanings gets one averaged
+  point in vector space. Contextual embeddings solve this by conditioning on the full sequence, which
+  is the core capability that makes fine-tuned language models so powerful.
+- Analogy arithmetic (`king - man + woman ≈ queen`) works in both GloVe and Word2Vec because the
+  direction of "royalty" and "gender" are consistently encoded across the co-occurrence statistics.
+
 <!-- Add new entries above this line, most recent first. -->
