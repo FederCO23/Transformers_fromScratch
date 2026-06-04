@@ -71,4 +71,29 @@ A running journal of insights, confusions resolved, and decisions made while wor
 - Analogy arithmetic (`king - man + woman ≈ queen`) works in both GloVe and Word2Vec because the
   direction of "royalty" and "gender" are consistently encoded across the co-occurrence statistics.
 
+## 2026-06-01 — Ch 05: Positional Encodings
+
+- Implemented four positional encoding strategies: sinusoidal (fixed buffer), learned
+  (`nn.Embedding` table), RoPE (functional Q/K rotation), and Relative Position Bias
+  (T5-style log-spaced bucket bias added to attention logits).
+- Sinusoidal and learned PE live in the *embedding domain* and add to token vectors before
+  the first layer. RoPE and relative bias live in the *attention domain* and operate inside
+  each attention block — a meaningful architectural distinction.
+- RoPE is implemented as two pure functions (`build_rope_cache`, `apply_rope`) rather than
+  an `nn.Module`, because it has no parameters and is always used inside an attention block.
+  Wrapping it in a module would add indirection without benefit.
+- Rotation is an isometry: the norm of each Q/K vector is preserved exactly after RoPE.
+  This was confirmed by the `test_rotation_is_isometry` test and is important for attention
+  score stability.
+- Key insight: the practical consequence of absolute vs relative encoding is *where* position
+  information enters the computation. Absolute encodings flow through residual connections and
+  may decay; relative encodings are recomputed at each layer, giving consistent positional
+  signal depth.
+- Length generalisation difference: sinusoidal PE formula extends to any length; learned PE
+  raises `IndexError` at seq_len > max_seq_len. RoPE frequencies extrapolate naturally though
+  accuracy degrades for very long sequences (YaRN in Ch 06 addresses this).
+- T5 bucket scheme: half the buckets cover exact small distances linearly, the other half
+  cover large distances logarithmically. This mirrors the attention pattern in practice —
+  nearby tokens matter most, distant ones are grouped coarsely.
+
 <!-- Add new entries above this line, most recent first. -->
