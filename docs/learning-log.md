@@ -96,4 +96,28 @@ A running journal of insights, confusions resolved, and decisions made while wor
   cover large distances logarithmically. This mirrors the attention pattern in practice —
   nearby tokens matter most, distant ones are grouped coarsely.
 
+## 2026-06-06 — Ch 06: Context Window and YaRN
+
+- Implemented three RoPE scaling strategies in `rope_scaling.py`: linear interpolation,
+  NTK-aware scaling, and YaRN. All return `(cos, sin)` caches with the same shape and
+  interface as `build_rope_cache`, so they are drop-in replacements for `apply_rope`.
+- Linear interpolation divides every frequency by `scale_factor`. It is the simplest
+  approach but compresses all dimensions uniformly — high-frequency dims (which encode
+  local position) are blurred just as much as low-frequency ones.
+- NTK-aware scaling replaces the RoPE base with `base * s^(d/(d-2))`. The closed-form
+  derivation means high-frequency dims are nearly unchanged while low-frequency dims are
+  compressed. A single parameter change; no per-dimension computation needed.
+- YaRN blends linear and NTK per dimension via a ramp weight derived from each dimension's
+  wavelength relative to the scale factor. High-freq dims (small wavelength) lean toward
+  linear; low-freq dims lean toward NTK. This is the "NTK-by-parts" method from Peng et al. 2023.
+- `yarn_attention_scale(s)` returns `0.1 * ln(s) + 1.0`, a temperature correction for the
+  attention logits that compensates for entropy increase at extended context lengths.
+  Key insight: the scale factor affects the attention dot-product, not the position encoding,
+  so it belongs as a separate function applied in the attention layer.
+- The ramp function (`clamp((wavelength/s - beta_slow) / (beta_fast - beta_slow), 0, 1)`)
+  is the crux of YaRN: `beta_fast=32` means any dim with wavelength < 32*s uses pure linear;
+  `beta_slow=1` means any dim with wavelength > s uses pure NTK. The middle dims interpolate.
+- YaRN-style scaling is used in production LLMs (Mistral, LLaMA 3 long-context) without
+  any retraining — the geometry of position encoding can be adapted at inference time.
+
 <!-- Add new entries above this line, most recent first. -->
