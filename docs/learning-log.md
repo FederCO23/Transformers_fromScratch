@@ -120,4 +120,23 @@ A running journal of insights, confusions resolved, and decisions made while wor
 - YaRN-style scaling is used in production LLMs (Mistral, LLaMA 3 long-context) without
   any retraining — the geometry of position encoding can be adapted at inference time.
 
+## 2026-06-17 — Ch 07: Multi-Head, Grouped-Query, and Multi-Query Attention
+
+- Implemented `MultiHeadAttention` (explicit matmul path) and `GroupedQueryAttention`
+  (`F.scaled_dot_product_attention` path) in separate modules. The split is intentional:
+  MHA exposes `attn_weights` for visualisation; GQA uses the fused kernel which may not
+  materialise the full attention matrix.
+- GQA's key implementation detail is `repeat_interleave(groups, dim=1)` on K and V after
+  projecting them to `(batch, num_kv_heads, seq, head_dim)`. This expands the KV heads to
+  match the query head count before calling `F.scaled_dot_product_attention`.
+- MQA is just `GroupedQueryAttention(num_kv_heads=1)` — no separate class needed. The KV
+  projection outputs only `head_dim` values regardless of `num_heads`.
+- RoPE integrates via the same `(cos, sin)` interface from Ch-05: pass the cache to
+  `forward` and it is applied after projection, before the attention dot-product.
+- KV-cache memory at inference scales as `2 × num_kv_heads × seq_len × head_dim` per layer.
+  GQA with `num_kv_heads=2` on an 8-head model cuts KV memory 4× vs MHA.
+- The attention weight heatmaps in the notebook show that different heads specialise:
+  some attend locally (diagonal pattern), others more broadly — this is an emergent property
+  of training, not a structural constraint of MHA.
+
 <!-- Add new entries above this line, most recent first. -->
